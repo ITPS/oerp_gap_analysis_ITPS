@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Gap Analysis Module for OpenERP v7
 =================
 
@@ -50,3 +51,7 @@ create on the fly when creating the project
 custom development (no change in the existing logic);
 4:Feature doesn't exist in OpenERP and either requires a heavy custom development (more than 4 hours) like a new module or a change in the existing logic;
 5:Not enough information to identify the necessary development we need more detail
+=======
+oerp_gap_analysis_ITPS
+======================
+>>>>>>> 49bd6a2a6ba4a9fdb43b3cdcb5d35fe664bd13bb

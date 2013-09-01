@@ -652,7 +652,11 @@ Also add information on how to contact you by electronic and paper mail.
   If the program does terminal interaction, make it output a short
 notice like this when it starts in an interactive mode:
 
+<<<<<<< HEAD
     gap_analysis_ITPS  Copyright (C) 2013  ITpedia-Solutions
+=======
+    oerp_gap_analysis_ITPS  Copyright (C) 2013  ITpedia-Solutions
+>>>>>>> 49bd6a2a6ba4a9fdb43b3cdcb5d35fe664bd13bb
     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
     This is free software, and you are welcome to redistribute it
     under certain conditions; type `show c' for details.
