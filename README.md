@@ -12,9 +12,6 @@ There are 4 different modules which cover several aspect of the gap analysis:
 An updated version of the module is available at:
 • https://github.com/ITPS/gap_analysis_ITPS
 
-If you have any questions on this document you can contact:
-• Nicholas Riegel (CEO at ITpedia Solutions LLC): nriegel@itpedia-solutions.com
-
 Setup and Definitions - GAP Analysis elements
 
 • Control – If the customer needs it then put Keep in it. If customer thinks it not necessary then Drop
@@ -50,3 +47,6 @@ create on the fly when creating the project
 custom development (no change in the existing logic);
 4:Feature doesn't exist in OpenERP and either requires a heavy custom development (more than 4 hours) like a new module or a change in the existing logic;
 5:Not enough information to identify the necessary development we need more detail
+
+If you have any questions on this document you can contact:
+• Nicholas Riegel (CEO at ITpedia Solutions LLC): nriegel@itpedia-solutions.com, 443-574-4877, Skype:itpedia
