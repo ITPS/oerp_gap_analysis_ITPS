@@ -10,7 +10,7 @@ There are 4 different modules which cover several aspect of the gap analysis:
 • gap_analysis_project_long_term: necessary to generate the project from the gap analysis (with phasing)
 
 An updated version of the module is available at:
-• https://github.com/ITPS/gap_analysis_ITPS
+• https://github.com/ITPS/oerp_gap_analysis_ITPS
 
 Setup and Definitions - GAP Analysis elements
 
