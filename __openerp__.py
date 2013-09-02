@@ -27,7 +27,7 @@
     'category': 'Tools',
     'complexity': "easy",
     'description': """
-This module provides the necessary tools to create and manage your gap-analysis.
+This module provides the necessary tools to create and manage your software gap-analysis.
 => Once the Gap Analysis set as Done, you can generate a new project with all the task from the Gap Analysis.
 
 
