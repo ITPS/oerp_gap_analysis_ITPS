@@ -4,6 +4,9 @@
 #    OpenERP, Open Source Management Solution    
 #    Copyright (c) 2010-2013 Elico Corp. All Rights Reserved.
 #    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
+#    
+#    Copyright (c) 2013 ITpedia Solutions LLC. All Rights Reserved
+#    Author: Mohammed Arif <arif.marias@itpedia-soltutions.com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
