@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    OpenERP, Open Source Enterprise Resource Planning and Management Solution
 #
 #    Copyright (c) 2013 ITpedia Solutions LLC. All Rights Reserved
 #    Author: Mohammed Arif <arif.marias@itpedia-soltutions.com>
