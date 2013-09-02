@@ -4,7 +4,7 @@
 #    OpenERP, Open Source Management Solution
 #
 #    Copyright (c) 2013 ITpedia Solutions LLC. All Rights Reserved
-#    Author: Mohammed Arif <arif.marias@itpedia-soltutions.com
+#    Author: Mohammed Arif <arif.marias@itpedia-soltutions.com>
 #
 #    Copyright (c) 2010-2013 Elico Corp. All Rights Reserved.
 #    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
