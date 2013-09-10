@@ -49,4 +49,4 @@ custom development (no change in the existing logic);
 5:Not enough information to identify the necessary development we need more detail
 
 If you have any questions on this document you can contact:
-• Nicholas Riegel (CEO at ITpedia Solutions LLC): nriegel@itpedia-solutions.com, 443-574-4877, Skype:itpedia
+• Nicholas Riegel (CEO at ITpedia Solutions LLC): nriegel@itpedia-solutions.com, 443-574-4877, Skype: itpedia
