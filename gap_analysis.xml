@@ -10,9 +10,9 @@
                 <tree string="Gap Analysis Functionalities">
                     <field name="category"/>
                     <field name="name"/>
-                    <field name="effort" groups="base.group_sale_salesman,base.group_sale_manager"/>
-		            <field name="critical" groups="base.group_sale_salesman,base.group_sale_manager"/>
-		            <field name="openerp_fct" groups="base.group_sale_salesman,base.group_sale_manager"/>
+                    <field name="effort" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1"/>
+		            <field name="critical" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1"/>
+		            <field name="openerp_fct" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1"/>
                 </tree>
             </field>
         </record>
@@ -25,7 +25,7 @@
 					<group>
                     <field name="category"/>
                     <field name="name"/>
-                    <field name="is_tmpl"  groups="base.group_sale_salesman,base.group_sale_manager"/>
+                    <field name="is_tmpl"  groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1"/>
                     <field name="proposed" attrs="{'invisible':[('is_tmpl','=',True)]}"/>
 					</group>
                     <newline/>
@@ -34,7 +34,7 @@
                     <field name="description" colspan="4" nolabel="1"/>
 					</group>
                     <newline/>
-                    <group groups="base.group_sale_salesman,base.group_sale_manager" attrs="{'invisible':[('is_tmpl','=',False)]}" colspan="4" col="4">
+                    <group groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1" attrs="{'invisible':[('is_tmpl','=',False)]}" colspan="4" col="4">
 		                <separator colspan="4" string="Template Default Values"/>
 		                <group>
 						<field name="critical"/>
@@ -205,7 +205,7 @@
                 		<field name="name"/>
                 		<field name="date_create"/>
                 		<field name="date_confirm"/>
-                		<field name="is_tmpl" groups="base.group_sale_salesman,base.group_sale_manager"/>
+                		<field name="is_tmpl" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1"/>
                 		<field name="user_id"/>
                 		<field name="project_id" on_change="onchange_project_id(project_id)"/>
                 		<field name="partner_id"/>
@@ -261,14 +261,14 @@
                                 <button name="import_from_tmpl" icon="gtk-execute" type="object" string="Import from Template" />
                             </group>
                         </page>
-                        <page string="Pricing" groups="base.group_sale_salesman,base.group_sale_manager">
+                        <page string="Pricing" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1">
                             <group>
 							<field colspan="4" name="func_cost"/>
                             <field colspan="4" name="tech_cost"/>
                             <field colspan="4" name="dev_cost"/>
 							</group>
                         </page>
-                        <page string="Resources" groups="base.group_sale_salesman,base.group_sale_manager">
+                        <page string="Resources" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1">
                             <group>
 							<field colspan="2" name="user_functional"/>
                             <field colspan="2" name="user_technical"/>
@@ -282,7 +282,7 @@
                     </notebook>
 					<group col="5" colspan="4">
 	                    <field name="estimated_cost"/>                                
-	                    <button name="button_dummy" type="object" string="Compute Price / Code" groups="base.group_sale_salesman,base.group_sale_manager"/>
+	                    <button name="button_dummy" type="object" string="Compute Price / Code" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1"/>
 	                </group>
 	                <group col="5" colspan="4" attrs="{'invisible':[('is_tmpl','=',True)]}">
 	                    <field name="state" widget="statusbar" statusbar_visible="draft,done,cancel" statusbar_colors='{"cancel":"red"}'/>
@@ -386,16 +386,16 @@
         </record>
         
         <!-- Menus -->
-        <menuitem  id="menu_gap" name="Gap Analysis" groups="base.group_sale_salesman,base.group_sale_manager" action="act_board_gap"/>
+        <menuitem  id="menu_gap" name="Gap Analysis" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1" action="act_board_gap"/>
 	        <menuitem id="menu_gap_00" 		name="Gap Analysis"      parent="menu_gap"    sequence="199"/>
 				<menuitem id="menu_gap_000" name="Gap Analysis"      parent="menu_gap_00" sequence="201" action="act_gap_analysis"/>
 	        
-	        <menuitem id="menu_gap_01" 		name="Templates" 				parent="menu_gap"    sequence="202" groups="base.group_sale_salesman,base.group_sale_manager"/>
+	        <menuitem id="menu_gap_01" 		name="Templates" 				parent="menu_gap"    sequence="202" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1"/>
 	        	<menuitem id="menu_gap_010" name="Gap Analysis Templates" 	parent="menu_gap_01" sequence="203"  action="act_gap_analysis_tmpl"/>
 	        	<menuitem id="menu_gap_011" name="Functionality Templates"  parent="menu_gap_01" sequence="204" action="act_gap_analysis_fct_tmpl"/>
 	        	<menuitem id="menu_gap_012" name="Proposed Functionalities" parent="menu_gap_01" sequence="205" action="act_gap_analysis_fct_proposed"/>
 	        
-			<menuitem id="menu_gap_02" 		name="Configuration" 			parent="menu_gap"    sequence="300" groups="base.group_sale_salesman,base.group_sale_manager"/>
+			<menuitem id="menu_gap_02" 		name="Configuration" 			parent="menu_gap"    sequence="300" groups="gap_analysis.res_group_gap0,gap_analysis.res_group_gap1"/>
 				<menuitem id="menu_gap_020" name="Functionality Categories" parent="menu_gap_02" sequence="301" action="act_gap_analysis_fct_cat" />
 				<menuitem id="menu_gap020b" name="All Functionalities" 		parent="menu_gap_02" sequence="302" action="act_gap_analysis_fct"/>
 	        	<menuitem id="menu_gap_021" name="Workload Types" 			parent="menu_gap_02" sequence="303" action="act_gap_analysis_workload_type" />
