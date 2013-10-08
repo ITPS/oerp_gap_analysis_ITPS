@@ -4,25 +4,13 @@ import ezodf2
 
 
 username = 'admin' #the user
-pwd = '123321...'      #the password of the user
+pwd = '*****'      #the password of the user
 dbname = 'gap-analysis-eng'    #the database
 
-category_dict = { 'General': 2,
-                  'Home page': 3,
-                  'Pie de página global': 4,
-                  'Misceláneos Home': 5,
-                  'Elementos obligatorios': 6,
-                  'Estructura base Cantv.net': 7,
-                  'Estructura base Cantv.net: Canales': 8,
-                  'Estructura base Cantv.net: Servicios': 9,
-                  'Estructura de Menús': 10,
-                  'Home Page Invitado': 11,
-                  'Aplicaciones para el portal de cara al usuario': 12,
-                  'Aplicaciones para gestión de contenidos de Cantv.net': 13,
-                  'Contenidos': 14,
-                  'Búsqueda': 15,
-                  'Publicaciones recientes': 16,
-                  'Móvil': 17,
+category_dict = { 'Category 1': 2,
+                  'Category 2': 3,
+                  'Category 3': 4,
+                  'Category 4': 5,
 }
 
 # Get the uid
@@ -37,7 +25,7 @@ print sock
 
 
 file_path = "/home/cmaldonado/Downloads/"
-filename = "RequerimientosFuncionales_cantv.net.ods"
+filename = "filename.ods"
 start_row = 7
 start_column = 1
 
