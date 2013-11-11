@@ -1,0 +1,7 @@
+username = 'admin'
+pwd = '123321...'
+dbname = 'Prueba'
+host = '127.0.0.1'
+port = '8069'
+filepath = '/home/aphu/Downloads/'
+filename = 'cantvnet.ods'

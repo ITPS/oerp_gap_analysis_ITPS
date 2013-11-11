@@ -1,11 +1,11 @@
  # coding=UTF-8
-import xmlrpclib
+import xmlrpclib, settings
 import ezodf2
 
-
-username = 'admin' #the user
-pwd = '*****'      #the password of the user
-dbname = 'gap-analysis-eng'    #the database
+#Get params from settings.py
+username = settings.username
+pwd = settings.pwd
+dbname = settings.dbname
 
 category_dict = { 'Category 1': 2,
                   'Category 2': 3,
@@ -14,7 +14,7 @@ category_dict = { 'Category 1': 2,
 }
 
 # Get the uid
-sock_common = xmlrpclib.ServerProxy ('http://192.168.213.161:8069/xmlrpc/common')
+sock_common = xmlrpclib.ServerProxy ('http://'+settings.host+':8069/xmlrpc/common')
 uid = sock_common.login(dbname, username, pwd)
 print uid 
 
@@ -22,10 +22,8 @@ print uid
 sock = xmlrpclib.ServerProxy('http://192.168.213.161:8069/xmlrpc/object')                                                                                   
 print sock
 
-
-
-file_path = "/home/cmaldonado/Downloads/"
-filename = "filename.ods"
+file_path = settings.filepath
+filename = settings.filename
 start_row = 7
 start_column = 1
 
