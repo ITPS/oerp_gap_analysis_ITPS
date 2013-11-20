@@ -11,6 +11,7 @@ global category_dict
 
 category_dict = { }
 
+# this is the priority dictionary
 priority_dict = { 'Mandatorio': 4,
                   'Prioritario': 3,
                   'Deseable': 2,
@@ -37,12 +38,16 @@ global table
 global rowcount
 global current_cell
 
+# open the ODS file
 spreadsheet = ezodf2.opendoc(file_path + filename)
 
+# assign the spreadsheet objects to a list
 sheets = spreadsheet.sheets
 
+# use the first spreadsheet
 table = sheets[0]
 
+# count the amounnt of rows
 rowcount = table.nrows()
 
 current_cell = table[start_row, start_column]
@@ -50,44 +55,55 @@ current_cell = table[start_row, start_column]
 print table.name
 print start_column, start_row
 
+#this function creates parent categories when needed
+def create_parents(category):
+    pieces = category.rsplit(":")
+    for i in xrange(0, len(pieces) - 2,1):
+        if not search_category_on_oerp(pieces[i]):
+            create_category_on_oerp(pieces[i])
+
+# this function searches for a category on an OpenERP model
 def search_category_on_oerp(category_i_need):
-    category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'search', category_i_need)
+    my_query  = [('name', '=', category_i_need),]
+    category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'search', my_query)
     if category_id:
         return category_id
     else:
         return None
     
-
+# this functions extracts a series of categories from a column in an ODS file
 def get_categories_from_ods(start_row, rowcount):
     for i in xrange(start_row, rowcount, 1):
         current_category = table[i, start_column]
         if current_category.value and current_category not in category_dict:
             category_dict[current_category.value.encode('utf-8')] = 0
 
-
-def create_categories_on_oerp():
-    for key in category_dict.keys():
-
-        if search_category_on_oerp(key):
-            cat_name = key;
-            cat_capitalized = key.capitalize()
-            parent = None
-            seq = 0
-            
-            new_category = { 
-                'name': cat_name,
-                'code': cat_capitalized[:7],
-                #        'parent_id': parent,
-                #        'sequence': seq
-            }   
+# this functions creates a category in a gap analysis deta model on OpenERP
+def create_category_on_oerp(key):
+    if not search_category_on_oerp(key):
+        cat_name = key;
+        cat_capitalized = key.capitalize()
+        parent = None
+        seq = 0
         
-            category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'create', new_category)
-            category_dict[key] = category_id
-            print cat_name, category_id
-#        print category_dict    
+        new_category = { 
+            'name': cat_name,
+            'code': cat_capitalized[:7],
+            #        'parent_id': parent,
+            #        'sequence': seq
+        }   
+        
+        category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'create', new_category)
+        category_dict[key] = category_id
+        print cat_name, category_id
+
+# regular program flow
 
 get_categories_from_ods(start_row, rowcount)
-create_categories_on_oerp()
+for key in category_dict.keys():
+    if ":" in key:
+        create_parents(key)
+    create_category_on_oerp(key)
 
 print len(category_dict)
 #print category_dict
