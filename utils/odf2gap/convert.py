@@ -138,6 +138,7 @@ for i in xrange(start_row, rowcount, 1):
 
             function_name = first_line
             function_desc = second_line
+            critical = priority_dict[table[i, 3].value]
 
 #    print function_name
 #    print function_desc
@@ -146,6 +147,7 @@ for i in xrange(start_row, rowcount, 1):
         'name': function_name,
         'description': function_desc,
         'is_tmpl': True,
+        'critical': critical,
     }   
 
-#    partner_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality', 'create', functionality)
+    partner_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality', 'create', functionality)
