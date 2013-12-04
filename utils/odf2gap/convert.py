@@ -62,6 +62,17 @@ def create_parents(category):
         if not search_category_on_oerp(pieces[i]):
             create_category_on_oerp(pieces[i])
 
+def set_category_parent(child_category_id, category):
+    pieces = category.rsplit(":")
+    try:
+        if pieces[1]:
+            parent_id = search_category_on_oerp(pieces[0])
+            if parent_id:
+                values = {'parent_id' : parent_id[0]}
+                category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'write', child_category_id, values)
+    except IndexError:
+        pass
+
 # this function searches for a category on an OpenERP model
 def search_category_on_oerp(category_i_need):
     my_query  = [('name', '=', category_i_need),]
@@ -83,13 +94,11 @@ def create_category_on_oerp(key):
     if not search_category_on_oerp(key):
         cat_name = key;
         cat_capitalized = key.capitalize()
-        parent = None
         seq = 0
         
         new_category = { 
             'name': cat_name,
             'code': cat_capitalized[:7],
-            #        'parent_id': parent,
             #        'sequence': seq
         }   
         
@@ -97,13 +106,16 @@ def create_category_on_oerp(key):
         category_dict[key] = category_id
         print cat_name, category_id
 
+        return category_id
+
 # regular program flow
 
 get_categories_from_ods(start_row, rowcount)
 for key in category_dict.keys():
     if ":" in key:
         create_parents(key)
-    create_category_on_oerp(key)
+    child_category_id = create_category_on_oerp(key)
+    set_category_parent(child_category_id, key)
 
 print len(category_dict)
 #print category_dict
