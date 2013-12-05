@@ -1,5 +1,5 @@
  # coding=UTF-8
-import xmlrpclib, settings
+import xmlrpclib, settings, re
 import ezodf2
 
 #Get params from settings.py
@@ -57,21 +57,22 @@ print start_column, start_row
 
 #this function creates parent categories when needed
 def create_parents(category):
+    category = re.sub(": ", ":", category)
     pieces = category.rsplit(":")
-    for i in xrange(0, len(pieces) - 2,1):
+    for i in xrange(0, len(pieces) - 1,1):
         if not search_category_on_oerp(pieces[i]):
             create_category_on_oerp(pieces[i])
 
-def set_category_parent(child_category_id, category):
+def set_category_parent(category):
+    category = re.sub(": ", ":", category)
     pieces = category.rsplit(":")
-    try:
-        if pieces[1]:
-            parent_id = search_category_on_oerp(pieces[0])
+    for i in xrange(0, len(pieces),1):
+        if i != 0:
+            child_category_id = search_category_on_oerp(pieces[i])
+            parent_id = search_category_on_oerp(pieces[i-1])
             if parent_id:
                 values = {'parent_id' : parent_id[0]}
                 category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'write', child_category_id, values)
-    except IndexError:
-        pass
 
 # this function searches for a category on an OpenERP model
 def search_category_on_oerp(category_i_need):
@@ -92,7 +93,10 @@ def get_categories_from_ods(start_row, rowcount):
 # this functions creates a category in a gap analysis deta model on OpenERP
 def create_category_on_oerp(key):
     if not search_category_on_oerp(key):
-        cat_name = key;
+        category = re.sub(": ", ":", key)
+        category = category.rsplit(":")
+        cat_name = category[len(category)-1]
+
         cat_capitalized = key.capitalize()
         seq = 0
         
@@ -115,7 +119,7 @@ for key in category_dict.keys():
     if ":" in key:
         create_parents(key)
     child_category_id = create_category_on_oerp(key)
-    set_category_parent(child_category_id, key)
+    set_category_parent(key)
 
 print len(category_dict)
 #print category_dict
