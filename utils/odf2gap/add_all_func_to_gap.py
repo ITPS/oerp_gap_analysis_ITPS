@@ -106,6 +106,17 @@ def listar_gap_lines(sock, uid, code):
         lines.append(line)
     return lines
 
+def mod_gap_lines(sock, uid, ids, values):
+    account_id = sock.execute(dbname, uid, pwd, 'gap_analysis.line', 'write', ids, values)
+
+def act_gap_lines(sock, uid, id_gap):
+    lines = listar_gap_lines(sock, uid, id_gap)
+    for l in lines:
+        values = {}
+        if re.match('Minisitio.*', l['category'][1]):
+            values = {'effort' : 2, 'openerp_fct' : 8, 'testing': 2.0}
+            mod_gap_lines(sock, uid, l['id'], values)
+
 def buscar_gap_func(sock, uid, code):
     if code == "":
         attr = []
@@ -131,8 +142,9 @@ def main():
     (sock, uid) = connect()
 
     #listar(sock, uid, 'cantv.com.ve')
-    #listar_gap_lines(sock, uid, '1')
+    #pprint.pprint(listar_gap_lines(sock, uid, ''), indent=4)
     #listar_gap_func(sock, uid, '')
-    crear_gap_lines(sock, uid, "cantv.com.ve")#Inserta todas las funcionalidades al GAP con nombre cantv.com.ve
+    #crear_gap_lines(sock, uid, "cantv.com.ve")#Inserta todas las funcionalidades al GAP con nombre cantv.com.ve
+    act_gap_lines(sock, uid, '')
 
 main()
