@@ -144,7 +144,7 @@ def main():
     #listar(sock, uid, 'cantv.com.ve')
     #pprint.pprint(listar_gap_lines(sock, uid, ''), indent=4)
     #listar_gap_func(sock, uid, '')
-    #crear_gap_lines(sock, uid, "cantv.com.ve")#Inserta todas las funcionalidades al GAP con nombre cantv.com.ve
+    crear_gap_lines(sock, uid, "cantv.com.ve")#Inserta todas las funcionalidades al GAP con nombre cantv.com.ve
     act_gap_lines(sock, uid, '')
 
 main()
