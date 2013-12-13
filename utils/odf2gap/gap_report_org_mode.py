@@ -58,7 +58,7 @@ def listar_gap_func(sock, uid, value):
     return func
 
 def listar_gap_lines(sock, uid, value):
-    fields = ['category', 'critical', 'effort', 'functionality']
+    fields = ['category', 'critical', 'effort', 'functionality', 'openerp_fct']
     line = sock.execute(dbname, uid, pwd, 'gap_analysis.line', 'read', value, fields)
     return line
 
@@ -81,13 +81,32 @@ def make_report(sock, uid, gap_name):
 
         print func_info
     
-    effort_info = "\n\n* Resultado de Análisis:\n + Funcionalidades disponibles en Plone: "+str(efforts_acum['1'])+"\n + Funcionalidades disponibles en Ploe que requieren configuración y parametrización: "+str(efforts_acum['2'])+"\n + Funcionalidades no disponibles en Plone que requieren desarrollo: "+str(efforts_acum['3']+efforts_acum['4']+efforts_acum['5'])
+    effort_info = "\n\n* Resultado de Análisis:\n** Funcionalidades:\n + Funcionalidades disponibles en Plone: "+str(efforts_acum['1'])+"\n + Funcionalidades disponibles en Ploe que requieren configuración y parametrización: "+str(efforts_acum['2'])+"\n + Funcionalidades no disponibles en Plone que requieren desarrollo: "+str(efforts_acum['3']+efforts_acum['4']+efforts_acum['5'])
 
     print effort_info
+
+def gap_openrp_features(sock, uid, gap_name):
+    gap = listar(sock, uid, gap_name)
+
+    dict_openrp_func = {}
+    print "\n** Cantidad de funcionalidades cubiertas por características de Plone\n"
+
+    for f in gap['gap_lines']:
+        line = listar_gap_lines(sock, uid, f)
+
+        if line['openerp_fct']:
+            try:
+                dict_openrp_func[line['openerp_fct'][1].encode('utf-8')] += 1
+            except KeyError:
+                dict_openrp_func[line['openerp_fct'][1].encode('utf-8')] = 1
+
+    for key in dict_openrp_func.keys():
+        print "Plone "+key+" = "+str(dict_openrp_func[key])
 
 def main():
     (sock, uid) = connect()
 
     make_report(sock, uid, 'Portal cantv.com.ve')
+    gap_openrp_features(sock, uid, 'Portal cantv.com.ve')
 
 main()
