@@ -13,6 +13,7 @@ category_dict = { }
 
 # this is the priority dictionary
 priority_dict = { 'Mandatorio': 4,
+                  'Obligatorio': 4,
                   'Prioritario': 3,
                   'Deseable': 2,
                   'No Necesario': 1,
