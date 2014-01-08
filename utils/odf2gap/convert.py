@@ -100,10 +100,16 @@ def create_category_on_oerp(key):
 
         cat_capitalized = key.capitalize()
         seq = 0
+        sub_str = 7
+
+        try:
+            code = cat_capitalized[:sub_str].decode('utf-8')
+        except UnicodeDecodeError:
+            code = cat_capitalized[:sub_str-1].decode('utf-8')
         
         new_category = { 
             'name': cat_name,
-            'code': cat_capitalized[:7],
+            'code': code,
             #        'sequence': seq
         }   
         
