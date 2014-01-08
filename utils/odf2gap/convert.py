@@ -103,7 +103,7 @@ def create_category_on_oerp(key):
         
         new_category = { 
             'name': cat_name,
-            'code': cat_capitalized[:6],
+            'code': cat_capitalized[:7],
             #        'sequence': seq
         }   
         
@@ -154,7 +154,7 @@ for i in xrange(start_row, rowcount, 1):
                     second_line += "\n" + cell
 
             function_name = first_line
-            function_desc = second_line
+            function_desc = function.value
             try:
                 critical = priority_dict[table[i, 3].value]
             except KeyError:
