@@ -46,17 +46,6 @@ spreadsheet = ezodf2.opendoc(file_path + filename)
 # assign the spreadsheet objects to a list
 sheets = spreadsheet.sheets
 
-# use the first spreadsheet
-table = sheets[0]
-
-# count the amounnt of rows
-rowcount = table.nrows()
-
-current_cell = table[start_row, start_column]
-
-print table.name
-print start_column, start_row
-
 #this function creates parent categories when needed
 def create_parents(category):
     global parent_id
@@ -127,6 +116,7 @@ def create_category_on_oerp(category):
     return category_id
 
 def create_functionalities(category_id, functionality, critical):
+    global functionalitycount
     cat_number = category_id
 
     if functionality.value:
@@ -157,30 +147,49 @@ def create_functionalities(category_id, functionality, critical):
     }
 
     partner_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality', 'create', functionality_to_oerp)
+    functionalitycount = functionalitycount + 1
 
 # regular program flow
 
-for i in xrange(start_row, rowcount, 1):
-    if table[i, start_column].value:
-        category = table[i, start_column].value.encode('utf-8')
-        functionality = table[i, start_column + 1]
 
-        try:
-            critical = priority_dict[table[i, 3].value]
-        except KeyError:
-            critical = priority_dict['No Necesario']
+# use the first spreadsheet
 
-        category = re.sub("\s *$", "", category)
+for s in range(len(sheets)):
+    functionalitycount = 0
+    table = sheets[s]
 
-        if re.match(".*-.*|.*:.*", category):
-            child_category_id = create_parents(category)
-        else:
-            category_on_oerp = search_category_on_oerp(category)
-            if not category_on_oerp:
-                child_category_id = create_category_on_oerp(category)
+    if (table.name != "Prioridad") and (table.name != "Sheet7"):
 
-        if functionality.value:
-            create_functionalities(child_category_id, functionality, critical)
+        # count the amounnt of rows
+        rowcount = table.nrows()
 
-print len(category_dict)
-print "----------"
+        current_cell = table[start_row, start_column]
+
+        print table.name
+        print start_column, start_row
+
+        for i in xrange(start_row, rowcount, 1):
+            if table[i, start_column].value:
+                category = table[i, start_column].value.encode('utf-8')
+                functionality = table[i, start_column + 1]
+
+                try:
+                    critical = priority_dict[table[i, 3].value]
+                except KeyError:
+                    critical = priority_dict['No Necesario']
+
+                category = re.sub("\s *$", "", category)
+
+                if re.match(".*-.*|.*:.*", category):
+                    child_category_id = create_parents(category)
+                else:
+                    category_on_oerp = search_category_on_oerp(category)
+                    if not category_on_oerp:
+                        child_category_id = create_category_on_oerp(category)
+
+                if functionality.value:
+                    create_functionalities(child_category_id, functionality, critical)
+
+        print "Categorias añadidas:", len(category_dict)
+        print "Funcionalidades Añadidas:", functionalitycount
+        print "----------"
