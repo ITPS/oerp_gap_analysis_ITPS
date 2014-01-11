@@ -30,7 +30,7 @@ print sock
 
 file_path = settings.filepath
 filename = settings.filename
-start_row = 5
+start_row = 2
 start_column = 1
 
 global spreadsheet 
@@ -38,6 +38,7 @@ global sheets
 global table
 global rowcount
 global current_cell
+parent_id = 0
 
 # open the ODS file
 spreadsheet = ezodf2.opendoc(file_path + filename)
@@ -58,22 +59,38 @@ print start_column, start_row
 
 #this function creates parent categories when needed
 def create_parents(category):
-    category = re.sub(": ", ":", category)
-    pieces = category.rsplit(":")
-    for i in xrange(0, len(pieces) - 1,1):
-        if not search_category_on_oerp(pieces[i]):
-            create_category_on_oerp(pieces[i])
-
-def set_category_parent(category):
-    category = re.sub(": ", ":", category)
+    global parent_id
+    category_id = 0
+    category = re.sub(": |- ", ":", category)
     pieces = category.rsplit(":")
     for i in xrange(0, len(pieces),1):
-        if i != 0:
-            child_category_id = search_category_on_oerp(pieces[i])
-            parent_id = search_category_on_oerp(pieces[i-1])
-            if parent_id:
-                values = {'parent_id' : parent_id[0]}
-                category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'write', child_category_id, values)
+        parent_id = search_category_on_oerp(pieces[i-1])
+        current_category = search_category_on_oerp(pieces[i])
+        if not current_category:
+            category_id = create_category_on_oerp(pieces[i])
+            set_category_parent(category_id, parent_id)
+        else:
+            fields = ['parent_id']
+            if current_category:
+                category_on_oerp = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'read', current_category, fields)
+                if (category_on_oerp[0]['parent_id']) and (parent_id != category_on_oerp[0]['parent_id'][0]):
+                    category_name_match = re.match('.*'+pieces[i-1]+'.*', category_on_oerp[0]['parent_id'][1].encode('utf-8'))
+                    if not category_name_match:
+                        category_id = create_category_on_oerp(pieces[i])
+                        set_category_parent(category_id, parent_id)
+                    else:
+                        category_id = current_category[-1]
+                else:
+                    category_id = current_category[-1]
+
+    return category_id
+
+def set_category_parent(category_id, parent_id):
+    if parent_id:
+        child_category_id = category_id
+
+        values = {'parent_id' : parent_id[-1]}
+        category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'write', child_category_id, values)
 
 # this function searches for a category on an OpenERP model
 def search_category_on_oerp(category_i_need):
@@ -84,96 +101,86 @@ def search_category_on_oerp(category_i_need):
     else:
         return None
     
-# this functions extracts a series of categories from a column in an ODS file
-def get_categories_from_ods(start_row, rowcount):
-    for i in xrange(start_row, rowcount, 1):
-        current_category = table[i, start_column]
-        if current_category.value and current_category not in category_dict:
-            category_dict[current_category.value.encode('utf-8')] = 0
-
 # this functions creates a category in a gap analysis deta model on OpenERP
-def create_category_on_oerp(key):
-    if not search_category_on_oerp(key):
-        category = re.sub(": ", ":", key)
-        category = category.rsplit(":")
-        cat_name = category[len(category)-1]
+def create_category_on_oerp(category):
+    cat_name = category
 
-        cat_capitalized = key.capitalize()
-        seq = 0
-        sub_str = 7
+    cat_capitalized = category.capitalize()
+    seq = 0
+    sub_str = 8
 
+    for i in reversed(range(0,sub_str)):
         try:
-            code = cat_capitalized[:sub_str].decode('utf-8')
+            code = cat_capitalized[:sub_str-i].encode('latin-1')
         except UnicodeDecodeError:
-            code = cat_capitalized[:sub_str-1].decode('utf-8')
-        
-        new_category = { 
-            'name': cat_name,
-            'code': code,
-            #        'sequence': seq
-        }   
-        
-        category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'create', new_category)
-        category_dict[key] = category_id
-        print cat_name, category_id
+            pass
 
-        return category_id
+    new_category = {
+        'name': cat_name,
+        'code': code,
+    }
 
-# regular program flow
+    category_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality.category', 'create', new_category)
 
-get_categories_from_ods(start_row, rowcount)
-for key in category_dict.keys():
-    if ":" in key:
-        create_parents(key)
-    child_category_id = create_category_on_oerp(key)
-    set_category_parent(key)
+    category_dict[cat_name] = category_id
 
-print len(category_dict)
-#print category_dict
-print "----------"
+    return category_id
 
+def create_functionalities(category_id, functionality, critical):
+    cat_number = category_id
 
-last_category = None
-for i in xrange(start_row, rowcount, 1):
-    category = table[i, start_column]
-    if category.value:
-#        print category.value
-        cat_number = category_dict[category.value.encode('utf-8')]
-        last_category = table[i, start_column]
-    else:
-#        print last_category.value
-        cat_number = category_dict[last_category.value.encode('utf-8')]
-    function = table[i, start_column + 1]
-    if function.value:
-        function_lines = function.value.split('\n')
+    if functionality.value:
+        function_lines = functionality.value.split('\n')
         first_line = None
         second_line = ''
         for line in function_lines:
-            if ":" in line:
-                function_name = line.split(':',1)
-            else:
-                function_name = line.split('\n')
-            for cell in function_name:
-                if not first_line:
-                    first_line = cell
-                else:
-                    second_line += "\n" + cell
+#            if ":" or "-" in line:
+#                line = re.sub(": |- ", ":", line)
+#                function_name = line.split(':',1)
+#            else:
+#                function_name = line.split('\n')
+#            for cell in function_name:
+#                if not first_line:
+#                    first_line = cell
+#                else:
+#                    second_line += "\n" + cell
 
-            function_name = first_line
-            function_desc = function.value
-            try:
-                critical = priority_dict[table[i, 3].value]
-            except KeyError:
-                critical = priority_dict['No Necesario']
+            function_name = functionality.value
+            function_desc = ""
 
-#    print function_name
-#    print function_desc
-    functionality = { 
+    functionality_to_oerp = {
         'category' : cat_number,
         'name': function_name,
         'description': function_desc,
         'is_tmpl': True,
         'critical': critical,
-    }   
+    }
 
-    partner_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality', 'create', functionality)
+    partner_id = sock.execute(dbname, uid, pwd, 'gap_analysis.functionality', 'create', functionality_to_oerp)
+
+# regular program flow
+
+for i in xrange(start_row, rowcount, 1):
+    if table[i, start_column].value:
+        category = table[i, start_column].value.encode('utf-8')
+        functionality = table[i, start_column + 1]
+
+        try:
+            critical = priority_dict[table[i, 3].value]
+        except KeyError:
+            critical = priority_dict['No Necesario']
+
+        category = re.sub("\s *$", "", category)
+
+        if re.match(".*-.*|.*:.*", category):
+            child_category_id = create_parents(category)
+        else:
+            category_on_oerp = search_category_on_oerp(category)
+            if not category_on_oerp:
+                child_category_id = create_category_on_oerp(category)
+
+        if functionality.value:
+            create_functionalities(child_category_id, functionality, critical)
+
+print len(category_dict)
+print "----------"
