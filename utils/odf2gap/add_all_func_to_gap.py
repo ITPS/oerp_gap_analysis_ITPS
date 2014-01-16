@@ -64,15 +64,15 @@ def crear_gap_lines(sock, uid, gap_name):
             'contributors': False,
             'critical': 4,
             'duration_wk': 0.0,
-            'effort': False,
+            'effort': f['effort'][0],
             'functionality': f['id'],
             'gap_id': gap[0]['id'],
             'id': line_id,
             'keep': True,
-            'openerp_fct': False,
+            'openerp_fct': f['openerp_fct'][0],
             'phase': '1',
             'seq': False,
-            'testing': 0.0,
+            'testing': f['testing'],
             'to_project': True,
             'total_cost': 0.0,
             'total_time': 0.0,
@@ -139,6 +139,6 @@ def main():
     #pprint.pprint(listar_gap_lines(sock, uid, ''), indent=4)
     #listar_gap_func(sock, uid, '')
     crear_gap_lines(sock, uid, "cantv.com.ve")#Inserta todas las funcionalidades al GAP con nombre cantv.com.ve
-    act_gap_lines(sock, uid, '')
+    #act_gap_lines(sock, uid, '')
 
 main()
