@@ -11,11 +11,11 @@ priority_dict = { 4 : 'Mandatorio',
         1 : 'No Necesario',
 }
 
-effort_dict = { 1 : 'Funcionalidad existente en Plone',
-        2 : 'Funcionalidad existente en Plone, pero requiere configuración ya parametrización',
-        3 : 'Funcionalidad no existente en Plone, requiere desarrollo menor a 4 horas',
-        4 : 'Funcionalidad no existente en Plone, requiere desarrollo mayor a 10 horas',
-        5 : 'Funcionalidad no existente en Plone, se necesitan mas detalles o requiere de un fuerte desarrollo mayor a 32 horas'
+effort_dict = { '1' : 'Funcionalidad existente en Plone',
+        '2' : 'Funcionalidad existente en Plone, pero requiere configuración ya parametrización',
+        '3' : 'Funcionalidad no existente en Plone, requiere desarrollo menor a 4 horas',
+        '4' : 'Funcionalidad no existente en Plone, requiere desarrollo mayor a 10 horas',
+        '5' : 'Funcionalidad no existente en Plone, se necesitan mas detalles o requiere de un fuerte desarrollo mayor a 32 horas'
 }
 
 efforts_acum = {'1' : 0,
@@ -64,6 +64,27 @@ def listar_gap_lines(sock, uid, value):
 
 def make_report(sock, uid, gap_name):
     gap = listar(sock, uid, gap_name)
+    org_header = """
+#+TITLE:     Análisis de brecha Portal cantv.com.ve
+#+AUTHOR:    Carlos Paredes
+#+EMAIL:     cparedes@covete.com.ve
+#+DATE:      2014-1-16
+#+DESCRIPTION: Análisis de brecha Portal cantv.com.ve
+#+KEYWORDS:
+#+LANGUAGE:  es
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+#+LATEX_CLASS: cantv
+#+LATEX_CLASS_OPTIONS: [11pt, letterpaper, oneside, spanish]
+#+LATEX_HEADER: \usepackage{array}
+#+LATEX_HEADER: \input{titulo-brecha-cantv-com-ve}"""
+    print org_header
 
     gap_info = "\n* "+gap['name']+"\n\n** Funcionalidades:"
     print gap_info
@@ -74,14 +95,16 @@ def make_report(sock, uid, gap_name):
 
         efforts_acum[line['effort'][1]] += 1
 
-        if func['description'] != '':
-            func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Descripción:"+func['description'].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][0]]
+        if (func['description'] != '') and func['description']:
+            func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Descripción:"+func['description'].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][1]]+"\nAplicación que cubrirá la funcionalidad: "+line['openerp_fct'][1].encode('utf-8')
         else:
-            func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][0]]
+            func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][1]]+"\nAplicación que cubrirá la funcionalidad: "+line['openerp_fct'][1].encode('utf-8')
 
         print func_info
     
     effort_info = "\n\n* Resultado de Análisis:\n** Funcionalidades:\n + Funcionalidades disponibles en Plone: "+str(efforts_acum['1'])+"\n + Funcionalidades disponibles en Ploe que requieren configuración y parametrización: "+str(efforts_acum['2'])+"\n + Funcionalidades no disponibles en Plone que requieren desarrollo: "+str(efforts_acum['3']+efforts_acum['4']+efforts_acum['5'])
+
+    effort_info = effort_info + "\n#+CAPTION: Análisis de brecha portal cantv.com.ve\n#+NAME: Funcionalidades\n    [[./images/brecha/graph_brecha_cantv_net.png]]"
 
     print effort_info
 
