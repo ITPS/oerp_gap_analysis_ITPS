@@ -62,7 +62,7 @@ def crear_gap_lines(sock, uid, gap_name):
             'category': f['category'][0],
             'code': False,
             'contributors': False,
-            'critical': 4,
+            'critical': f['critical'],
             'duration_wk': 0.0,
             'effort': f['effort'][0],
             'functionality': f['id'],
