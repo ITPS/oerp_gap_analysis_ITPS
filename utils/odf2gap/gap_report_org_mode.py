@@ -110,9 +110,9 @@ def make_report(sock, uid, gap_name):
         efforts_acum[line['effort'][1]] += 1
 
         if (func['description'] != '') and func['description']:
-            func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Descripción:"+func['description'].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][1]]+"\nAplicación que cubrirá la funcionalidad: "+line['openerp_fct'][1].encode('utf-8')
+            func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Descripción: "+func['description'].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][1]]+"\n+ Aplicación que cubrirá la funcionalidad: "+line['openerp_fct'][1].encode('utf-8')
         else:
-            func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][1]]+"\nAplicación que cubrirá la funcionalidad: "+line['openerp_fct'][1].encode('utf-8')
+            func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][1]]+"\n+ Aplicación que cubrirá la funcionalidad: "+line['openerp_fct'][1].encode('utf-8')
 
         print func_info
 
@@ -173,7 +173,7 @@ def gap_openrp_features(sock, uid, gap_name):
 def main():
     (sock, uid) = connect()
 
-    make_report(sock, uid, 'cantv.com.ve requerimientos funcionales')
-    gap_openrp_features(sock, uid, 'cantv.com.ve requerimientos funcionales')
+    make_report(sock, uid, 'cantv.com.ve Requerimientos Funcionales')
+    gap_openrp_features(sock, uid, 'cantv.com.ve Requerimientos Funcionales')
 
 main()
