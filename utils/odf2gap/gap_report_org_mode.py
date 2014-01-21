@@ -18,7 +18,8 @@ effort_dict = { '1' : 'Funcionalidad existente en Plone',
         '5' : 'Funcionalidad no existente en Plone, se necesitan mas detalles o requiere de un fuerte desarrollo mayor a 32 horas'
 }
 
-efforts_acum = {'1' : 0,
+efforts_acum = {'0' : 0,
+        '1' : 0,
         '2' : 0,
         '3' : 0,
         '4' : 0,
@@ -64,15 +65,14 @@ def listar_gap_lines(sock, uid, value):
 
 def make_report(sock, uid, gap_name):
     gap = listar(sock, uid, gap_name)
-    org_header = """
-#+TITLE:     Análisis de brecha Portal cantv.com.ve
+    org_header = """#+TITLE:     Análisis de brecha Portal cantv.com.ve
 #+AUTHOR:    Carlos Paredes
 #+EMAIL:     cparedes@covete.com.ve
 #+DATE:      2014-1-16
 #+DESCRIPTION: Análisis de brecha Portal cantv.com.ve
 #+KEYWORDS:
 #+LANGUAGE:  es
-#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   H:3 num:t toc:t:nil @:t ::t |:t ^:t -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
 #+EXPORT_SELECT_TAGS: export
@@ -85,6 +85,20 @@ def make_report(sock, uid, gap_name):
 #+LATEX_HEADER: \usepackage{array}
 #+LATEX_HEADER: \input{titulo-brecha-cantv-com-ve}"""
     print org_header
+
+    versiones = """\n* Versiones del Documento
+#+BEGIN_DITAA images/versiones_brecha_cantv_com_ve.png -r -S
+/-------------------------------------------------+-----------\\
+| cBLU                  Autor                     |  Versión  |
++-------------------------------------------------+-----------+
+|                 Carlos Paredes                  |     1     |
++-------------------------------------------------+-----------+
+|                 Carlos Paredes                  |     2     |
++-------------------------------------------------+-----------+
+|                                                 |           |
+\-------------------------------------------------+-----------/
+#+END_DITAA"""
+    print versiones
 
     gap_info = "\n* "+gap['name']+"\n\n** Funcionalidades:"
     print gap_info
@@ -101,12 +115,32 @@ def make_report(sock, uid, gap_name):
             func_info = "\n*** "+line['category'][1].encode('utf-8')+"\n+ Nombre: "+line['functionality'][1].encode('utf-8')+"\n+ Prioridad: "+priority_dict[line['critical']]+"\n+ Esfuerzo: "+effort_dict[line['effort'][1]]+"\nAplicación que cubrirá la funcionalidad: "+line['openerp_fct'][1].encode('utf-8')
 
         print func_info
-    
-    effort_info = "\n\n* Resultado de Análisis:\n** Funcionalidades:\n + Funcionalidades disponibles en Plone: "+str(efforts_acum['1'])+"\n + Funcionalidades disponibles en Ploe que requieren configuración y parametrización: "+str(efforts_acum['2'])+"\n + Funcionalidades no disponibles en Plone que requieren desarrollo: "+str(efforts_acum['3']+efforts_acum['4']+efforts_acum['5'])
 
-    effort_info = effort_info + "\n#+CAPTION: Análisis de brecha portal cantv.com.ve\n#+NAME: Funcionalidades\n    [[./images/brecha/graph_brecha_cantv_net.png]]"
+    print "\n* Resultado de Análisis:\n** Funcionalidades:"
 
-    print effort_info
+    print """\n#+BEGIN_DITAA images/brecha_cantv_com_ve.png -r -S
++-----------------------------------------------+-----------+
+|cBLU              Característica               | Cantdidad |""" 
+
+    separator = "+-----------------------------------------------+-----------+"
+ 
+    print separator
+    print "| Requieren conf y/o parametrización < 1 hora | "+str(efforts_acum['1'])+" |"
+    print separator
+    print "| Requieren conf y/o parametrización < 2 horas | "+str(efforts_acum['2'])+" |"
+    print separator
+    print "| Requieren desarrollo < 4 horas | "+str(efforts_acum['3'])+" |"
+    print separator
+    print "| Requieren desarrollo < 8 horas | "+str(efforts_acum['4'])+" |"
+    print separator
+    print "| Requieren desarrollo > 32 horas | "+str(efforts_acum['5'])+" |"
+    print separator
+    print  "| No contempladas | "+str(efforts_acum['0'])+" |"
+    print separator
+    print "#+END_DITAA"
+
+    print "\n\n#+CAPTION: Análisis de brecha portal cantv.com.ve\n#+NAME: Funcionalidades\n    [[./images/graph_brecha_cantv_com_ve.png]]"
+    print "\clearpage"
 
 def gap_openrp_features(sock, uid, gap_name):
     gap = listar(sock, uid, gap_name)
@@ -123,13 +157,23 @@ def gap_openrp_features(sock, uid, gap_name):
             except KeyError:
                 dict_openrp_func[line['openerp_fct'][1].encode('utf-8')] = 1
 
+    print """#+BEGIN_DITAA images/gap_plone_features_cantv_com_ve.png -r -S
++-----------------------------------------------+-----------+
+|cBLU              Característica               | Cantdidad |""" 
+    
+    separator = "+-----------------------------------------------+-----------+"
+
     for key in dict_openrp_func.keys():
-        print "Plone "+key+" = "+str(dict_openrp_func[key])
+        print separator
+        print "| Plone "+key+" | "+str(dict_openrp_func[key])+" |"
+
+    print separator
+    print "#+END_DITAA"
 
 def main():
     (sock, uid) = connect()
 
-    make_report(sock, uid, 'Portal cantv.com.ve')
-    gap_openrp_features(sock, uid, 'Portal cantv.com.ve')
+    make_report(sock, uid, 'cantv.com.ve requerimientos funcionales')
+    gap_openrp_features(sock, uid, 'cantv.com.ve requerimientos funcionales')
 
 main()
