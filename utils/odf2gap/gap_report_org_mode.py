@@ -11,7 +11,7 @@ priority_dict = { 4 : 'Mandatorio',
         1 : 'No Necesario',
 }
 
-effort_dict = { '0' : 'Funcionalidad no contemplada'
+effort_dict = { '0' : 'Funcionalidad no contemplada',
         '1' : 'Funcionalidad existente en Plone',
         '2' : 'Funcionalidad existente en Plone, pero requiere configuración ya parametrización',
         '3' : 'Funcionalidad no existente en Plone, requiere desarrollo menor a 4 horas',
