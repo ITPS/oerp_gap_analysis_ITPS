@@ -136,7 +136,7 @@ def create_functionalities(category_id, functionality, critical):
 #                    second_line += "\n" + cell
 
             function_name = functionality.value
-            function_desc = ""
+            function_desc = functionality.value
 
     functionality_to_oerp = {
         'category' : cat_number,
