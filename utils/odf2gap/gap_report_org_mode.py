@@ -121,7 +121,7 @@ def make_report(sock, uid, gap_name):
 
     print """\n#+BEGIN_DITAA images/brecha_cantv_com_ve.png -r -S
 +-----------------------------------------------+-----------+
-|cBLU              Característica               | Cantidad |"""
+|cBLU              Característica               | Cantidad  |"""
 
     separator = "+-----------------------------------------------+-----------+"
  
@@ -160,7 +160,7 @@ def gap_openrp_features(sock, uid, gap_name):
 
     print """#+BEGIN_DITAA images/gap_plone_features_cantv_com_ve.png -r -S
 +-----------------------------------------------+-----------+
-|cBLU              Característica               | Cantidad |"""
+|cBLU              Característica               | Cantidad  |"""
     
     separator = "+-----------------------------------------------+-----------+"
 
