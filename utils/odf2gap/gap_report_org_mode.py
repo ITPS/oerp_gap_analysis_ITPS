@@ -102,7 +102,7 @@ def make_report(sock, uid, gap_name):
     print versiones
 
     gap_info = "\n* "+gap['name']+"\n\n** Funcionalidades:"
-    print gap_info
+    print gap_info.encode('utf-8')
 
     for f in gap['gap_lines']:
         line = listar_gap_lines(sock, uid, f)
@@ -121,7 +121,7 @@ def make_report(sock, uid, gap_name):
 
     print """\n#+BEGIN_DITAA images/brecha_cantv_com_ve.png -r -S
 +-----------------------------------------------+-----------+
-|cBLU              Característica               | Cantdidad |""" 
+|cBLU              Característica               | Cantidad |"""
 
     separator = "+-----------------------------------------------+-----------+"
  
@@ -160,7 +160,7 @@ def gap_openrp_features(sock, uid, gap_name):
 
     print """#+BEGIN_DITAA images/gap_plone_features_cantv_com_ve.png -r -S
 +-----------------------------------------------+-----------+
-|cBLU              Característica               | Cantdidad |""" 
+|cBLU              Característica               | Cantidad |"""
     
     separator = "+-----------------------------------------------+-----------+"
 
@@ -174,7 +174,7 @@ def gap_openrp_features(sock, uid, gap_name):
 def main():
     (sock, uid) = connect()
 
-    make_report(sock, uid, 'cantv.com.ve Requerimientos Funcionales')
-    gap_openrp_features(sock, uid, 'cantv.com.ve Requerimientos Funcionales')
+    make_report(sock, uid, 'autogestión Requerimientos Funcionales')
+    gap_openrp_features(sock, uid, 'autogestión Requerimientos Funcionales')
 
 main()
