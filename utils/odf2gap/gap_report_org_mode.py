@@ -29,11 +29,11 @@ efforts_acum = {'0' : 0,
 
 def connect():
     # Get the uid
-    sock_common = xmlrpclib.ServerProxy ('http://localhost:8069/xmlrpc/common')
+    sock_common = xmlrpclib.ServerProxy ('http://'+settings.host+':'+settings.port+'/xmlrpc/common')
     uid = sock_common.login(dbname, username, pwd)
 
     #replace localhost with the address of the server
-    sock = xmlrpclib.ServerProxy('http://localhost:8069/xmlrpc/object')
+    sock = xmlrpclib.ServerProxy('http://'+settings.host+':'+settings.port+'/xmlrpc/object')
     return sock, uid
 
 def buscar(sock, uid, filt):
