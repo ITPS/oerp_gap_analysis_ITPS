@@ -3,11 +3,13 @@
     <data noupdate="1">
         <!--Resource: gap_analysis.functionality.category-->        
         <record id="gap_analysis_fct_cat1" model="gap_analysis.functionality.category">
-            <field name="name">CRM</field>
+            <field name="name">Customer Relationship Management</field>
+            <field name="code">CRM</field>
             <field name="sequence">5</field>
         </record>
         <record id="gap_analysis_fct_cat2" model="gap_analysis.functionality.category">
             <field name="name">Sales</field>
+            <field name="code">SAJ</field>
             <field name="sequence">6</field>
         </record>
         
@@ -40,18 +42,21 @@
         <!--Resource: gap_analysis.workload.type-->        
         <record id="gap_analysis_type1" model="gap_analysis.workload.type">
             <field name="name">Report (Basic)</field>
+            <field name="code">RPTBA</field>
             <field name="sequence">5</field>
             <field name="cost">350</field>
             <field name="category">Functional Analysis</field>
         </record>
         <record id="gap_analysis_type2" model="gap_analysis.workload.type">
             <field name="name">Report (Advanced)</field>
+            <field name="code">RPTAD</field>
             <field name="sequence">6</field>
             <field name="cost">550</field>
             <field name="category">Functional Analysis</field>
         </record>
         <record id="gap_analysis_type3" model="gap_analysis.workload.type">
             <field name="name">Workflow</field>
+            <field name="code">RPTWKF</field>
             <field name="sequence">7</field>
             <field name="cost">500</field>
             <field name="category">Technical Analysis</field>
@@ -69,16 +74,19 @@
             <field name="gap_id" ref="gap_analysis1"/>
             <field name="functionality" ref="gap_analysis_fct1"/>
             <field name="effort" ref="gap_analysis_effort1"/>
+            <field name="category" ref="gap_analysis_fct_cat1"/>
         </record>
         <record id="gap_analysis_line2" model="gap_analysis.line">
             <field name="gap_id" ref="gap_analysis1"/>
             <field name="functionality" ref="gap_analysis_fct2"/>
             <field name="effort" ref="gap_analysis_effort1"/>
+            <field name="category" ref="gap_analysis_fct_cat1"/>
         </record>
         <record id="gap_analysis_line3" model="gap_analysis.line">
             <field name="gap_id" ref="gap_analysis1"/>
             <field name="functionality" ref="gap_analysis_fct3"/>
             <field name="effort" ref="gap_analysis_effort2"/>
+            <field name="category" ref="gap_analysis_fct_cat2"/>
         </record>
 
         <!--Resource: gap_analysis.workload-->        

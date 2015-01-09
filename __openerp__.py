@@ -1,26 +1,21 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Enterprise Resource Planning and Management Solution
-#
-#    Copyright (c) 2013 ITpedia Solutions LLC. All Rights Reserved
-#    Author: Mohammed Arif <arif.marias@itpedia-soltutions.com>
-#
+#    OpenERP, Open Source Management Solution
 #    Copyright (c) 2010-2013 Elico Corp. All Rights Reserved.
 #    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
-#    
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
@@ -28,48 +23,48 @@
 
 {
     'name': 'Gap Analysis',
-    'version': '1.1',
+    'version': '1.0',
     'category': 'Tools',
     'complexity': "easy",
     'description': """
-This module provides the necessary tools to create and manage a software gap-analysis.
-=> Once the Gap Analysis set as Done, you can generate a new project with all the task from the Gap Analysis.
+This module provides the necessary tools to create and manage your gap-analysis.
+Once the Gap Analysis set as Done, you can generate a new project with all the task from the Gap Analysis.
 
 
-You can manage :
-----------------
+You can manage
+--------------
 * functionalities, eg: "Ability to provide quantity discount"
 * categories,      eg: "SEO, Website, ..."
 * workload,        eg: "1 day for 500$"
 * workload type,   eg: "Training, Advanced Development, ..."
 
 
-Report :
---------
+Report
+------
 * Generate a full gap-analysis, with the total planned workload and cost estimation.
 
 
-Security :
-----------
+Security
+--------
 * Everybody can read
 * Gap Analysis Users can create, read and update their own gap-analysis
 * Gap Analysis Managers can create, read, update and delete any gap-analysis
 """,
-    'author': 'Mohammed Arif',
-    'website': 'http://www.itpedia-solutions.com/',
+    'author': 'Elico Corp',
+    'website': 'http://www.elico-corp.com',
     'images': ['images/report.jpg','images/gap_analysis.jpg','images/gap_analysis2.jpg'],
     'depends': ['report_webkit','project'],
     'init_xml': [],
-    'data': [
+    'update_xml': [
         'security/gap_analysis_rules.xml',
         'security/ir.model.access.csv',
         'report/gap_analysis_report_view.xml',
         #'gap_analysis_workflow.xml',
         'gap_analysis_sequence.xml',
         'gap_analysis.xml',
-        
+        'wizard/import_from_tmpl.xml',
 	],
-    #'demo_xml': ['gap_analysis_demo.xml'], 
+    'demo_xml': ['gap_analysis_demo.xml'], 
     'test': [],
     'installable': True,
     'auto_install': False,

@@ -16,7 +16,11 @@
 <body>
 	<table id="report_company_header" width="100%">
 		<tr>
+			<td width="50%">${helper.embed_logo_by_name('logo')|n}</td>
 			<td>${company.partner_id.name |entity}<br />
+			${company.partner_id.street |entity}<br />
+			Phone: ${company.partner_id.phone |entity}<br />
+			Mail: ${company.partner_id.email |entity}</td>
 		</tr>
 	</table>
 	<br /><br />
