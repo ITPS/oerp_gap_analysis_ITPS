@@ -71,6 +71,11 @@ Security
     'application': True,
     'active': True,
     'certificate': '',
+    'external_dependencies': {
+        'python': [
+            'xlrd',
+        ]
+    },
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
