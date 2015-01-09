@@ -30,7 +30,6 @@ import base64
 
 import xlrd
 from xlrd import open_workbook
-import xlutils.copy
 
 
 def getcell(rs, line, col, forceText=False):
