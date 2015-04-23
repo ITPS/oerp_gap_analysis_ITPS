@@ -18,9 +18,9 @@
 		<tr>
 			<td width="50%">${helper.embed_logo_by_name('logo')|n}</td>
 			<td>${company.partner_id.name |entity}<br />
-			${company.partner_id.address and company.partner_id.address[0].street or ''|entity}<br />
-			Phone: ${company.partner_id.address and company.partner_id.address[0].phone or ''|entity}<br />
-			Mail: ${company.partner_id.address and company.partner_id.address[0].email or ''|entity}</td>
+			${company.partner_id.street |entity}<br />
+			Phone: ${company.partner_id.phone |entity}<br />
+			Mail: ${company.partner_id.email |entity}</td>
 		</tr>
 	</table>
 	<br /><br />

@@ -1,14 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Enterprise Resource Planning and Management Solution
-#
-#    Copyright (c) 2013 ITpedia Solutions LLC. All Rights Reserved
-#    Author: Mohammed Arif <arif.marias@itpedia-soltutions.com>
-#
+#    OpenERP, Open Source Management Solution    
 #    Copyright (c) 2010-2013 Elico Corp. All Rights Reserved.
 #    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
-#    
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,20 +19,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
+
+from datetime import datetime
 import time
-from openerp import pooler
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare
-import openerp.addons.decimal_precision as dp
-from openerp import netsvc
-from openerp.tools import ustr
+from osv import fields, osv
+from tools.translate import _
+from tools import ustr
 #import tools
 
 
-class gap_analysis_effort(osv.osv):
+class gap_analysis_effort(osv.Model):
     _name = "gap_analysis.effort"
     _description = "Gap Analysis Efforts"
     
@@ -55,10 +46,9 @@ class gap_analysis_effort(osv.osv):
         return {'value': val}
     
     _order = 'name'
-gap_analysis_effort()
 
 
-class gap_analysis_workload_type(osv.osv):
+class gap_analysis_workload_type(osv.Model):
     _name = "gap_analysis.workload.type"
     _description = "Gap Analysis Workload Type"
     
@@ -70,16 +60,15 @@ class gap_analysis_workload_type(osv.osv):
         'duration': fields.float('Duration (hour)', help='Default duration in hour for this type of workload.', required=True,),
     }
     _defaults = {
-        'sequence': lambda *a: 10,
-        'category': lambda *a: 'Functional Analysis',
-        'duration': lambda *a: 4,
+        'sequence': 10,
+        'category': 'Functional Analysis',
+        'duration': 4,
     }
     _order = 'sequence'
-gap_analysis_workload_type()
 
 
 
-class gap_analysis_workload(osv.osv):
+class gap_analysis_workload(osv.Model):
     _name = "gap_analysis.workload"
     _description = "Gap Analysis Workload"
     
@@ -96,11 +85,10 @@ class gap_analysis_workload(osv.osv):
         val['duration'] = my_type.duration
         return {'value': val}
     
-gap_analysis_workload()
 
 
 
-class gap_analysis_functionality_category(osv.osv):
+class gap_analysis_functionality_category(osv.Model):
     _inherit = "product.category"
     _name = "gap_analysis.functionality.category"
     _description = "Gap Analysis Functionality Categories"
@@ -151,11 +139,10 @@ class gap_analysis_functionality_category(osv.osv):
     _parent_store = True
     _parent_order = 'sequence, name'
     _order = 'parent_left'
-gap_analysis_functionality_category()
 
 
 
-class gap_analysis_functionality(osv.osv):
+class gap_analysis_functionality(osv.Model):
     _name = "gap_analysis.functionality"
     _description = "Gap Analysis Functionalities"
     
@@ -186,21 +173,18 @@ class gap_analysis_functionality(osv.osv):
         if 'is_tmpl' in vals and vals['is_tmpl'] == True:
             vals['proposed'] = False
         return super(gap_analysis_functionality, self).write(cr, uid, ids, vals, context=context)
-    
-gap_analysis_functionality()
 
 
-class gap_analysis_openerp(osv.osv):
+class gap_analysis_openerp(osv.Model):
     _name = "gap_analysis.openerp"
     _description = "Gap Analysis OpenERP features"
     
     _columns = {
         'name':       fields.char('OpenERP feature', size=256, required=True, translate=True),
     } 
-gap_analysis_openerp()
 
 
-class gap_analysis(osv.osv):
+class gap_analysis(osv.Model):
     _name = "gap_analysis"
     _description = "Gap Analysis"
     
@@ -339,25 +323,23 @@ class gap_analysis(osv.osv):
         'user_test':       fields.many2one('res.users', 'Default Tester'),
     }
     _defaults = {
-        'state':       lambda *a: 'draft',
+        'state':       'draft',
         'user_id':     lambda obj, cr, uid, context: uid,
         'user_functional': lambda obj, cr, uid, context: uid,
         'reference':   lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'gap_analysis'),
         'date_create': fields.date.context_today,
-        'tech_cost':   lambda *a: 500.0,
-        'func_cost':   lambda *a: 500.0,
-        'dev_cost':    lambda *a: 250.0,
+        'tech_cost':   500.0,
+        'func_cost':   500.0,
+        'dev_cost':    250.0,
     }
     _sql_constraints = [
         ('reference_uniq', 'unique(reference)', 'Reference must be unique !'),
     ]
     _order = 'name desc'
 
-gap_analysis()
 
 
-
-class gap_analysis_line(osv.osv):
+class gap_analysis_line(osv.Model):
     _name = "gap_analysis.line"
     _description = "Gap-analysis Lines"
     
@@ -474,14 +456,12 @@ class gap_analysis_line(osv.osv):
         'unknown_wk':    fields.boolean('Must set the duration manually ?',),
     }
     _defaults = {
-        'unknown_wk':  lambda *a: False,
-        'keep':        lambda *a: True,
-        'critical':    lambda *a: 1,
+        'unknown_wk':  False,
+        'keep':        True,
+        'critical':    1,
     }
     
     _order = 'seq asc, code asc'
     _rec_name = 'code'
-    
-gap_analysis_line()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

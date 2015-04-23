@@ -1,14 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Enterprise Resource Planning and Management Solution
-#
-#    Copyright (c) 2013 ITpedia Solutions LLC. All Rights Reserved
-#    Author: Mohammed Arif <arif.marias@itpedia-soltutions.com>
-#
+#    OpenERP, Open Source Management Solution    
 #    Copyright (c) 2010-2013 Elico Corp. All Rights Reserved.
 #    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
-#    
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -28,7 +23,7 @@
 from osv import osv, fields
 from tools.translate import _
 
-class gap_analysis_import_from_tmpl(osv.osv_memory):
+class gap_analysis_import_from_tmpl(osv.TransientModel):
     _name='gap_analysis.import_from_tmpl'
     
     _columns = {
@@ -72,7 +67,5 @@ class gap_analysis_import_from_tmpl(osv.osv_memory):
                     workload_id = workload_pool.create(cr, uid, workload_vals, context=context)
         
         return {'type': 'ir.actions.act_window_close'}
-
-gap_analysis_import_from_tmpl()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

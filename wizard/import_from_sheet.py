@@ -1,14 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Enterprise Resource Planning and Management Solution
-#
-#    Copyright (c) 2013 ITpedia Solutions LLC. All Rights Reserved
-#    Author: Mohammed Arif <arif.marias@itpedia-soltutions.com>
-#
+#    OpenERP, Open Source Management Solution    
 #    Copyright (c) 2010-2013 Elico Corp. All Rights Reserved.
 #    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
-#    
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -35,7 +30,6 @@ import base64
 
 import xlrd
 from xlrd import open_workbook
-import xlutils.copy
 
 
 def getcell(rs, line, col, forceText=False):
