@@ -2,6 +2,9 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
+#    Copyright (c) 2010- 2015 ITpedia Solutions, LLC All Rights Reserved
+#    Author: Nicholas Riegel <nriegel@itpedia-solutions.com>
+#
 #    Copyright (c) 2010-2013 Elico Corp. All Rights Reserved.
 #    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
 #
@@ -50,8 +53,8 @@ Security
 * Gap Analysis Users can create, read and update their own gap-analysis
 * Gap Analysis Managers can create, read, update and delete any gap-analysis
 """,
-    'author': 'Elico Corp',
-    'website': 'http://www.elico-corp.com',
+    'author': 'ITpedia Solutions, LLC',
+    'website': 'http://www.itpediasolutions.com',
     'images': ['images/report.jpg','images/gap_analysis.jpg','images/gap_analysis2.jpg'],
     'depends': ['report_webkit','project'],
     'init_xml': [],
