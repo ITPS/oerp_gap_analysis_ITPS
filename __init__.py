@@ -2,6 +2,9 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
+#    Copyright (c) 2010- 2015 ITpedia Solutions, LLC All Rights Reserved
+#    Author: Nicholas Riegel <nriegel@itpedia-solutions.com>
+#
 #    Copyright (c) 2010-2013 Elico Corp. All Rights Reserved.
 #    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
 #
